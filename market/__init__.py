@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_bcrypt import Bcrypt
 
 app = Flask(__name__)
 
@@ -10,5 +11,7 @@ app.config['SECRET_KEY'] = '0fa5571fb03c29c8a0b22057'
 
 """Inicialização do Objeto que tratará as ORMs no Flask."""
 db = SQLAlchemy(app)
+
+bcrypt = Bcrypt(app)
 
 from market import routes
