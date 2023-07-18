@@ -1,6 +1,10 @@
 from market import db
 from market import bcrypt
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(id=int(user_id))
+
 class User(db.Model):
     id = db.Column(db.Integer(), nullable=False, primary_key=True)
     username = db.Column(db.String(length=30), nullable=False, unique=True)
@@ -16,6 +20,10 @@ class User(db.Model):
     @password.setter
     def password(self, plain_text_password):
         self.password_hash = bcrypt.generate_password_hash(plain_text_password).decode('utf-8')
+
+    def check_passwor_correction(self, attempted_password):
+        return bcrypt.check_password_hash(self.password_hash, attempted_password)
+            
 
 
 class Item(db.Model):
